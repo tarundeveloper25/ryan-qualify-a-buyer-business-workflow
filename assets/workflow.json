@@ -1,0 +1,144 @@
+{
+  "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+  "structure": {
+    "steps": [
+      {
+        "action_type": "navigate",
+        "disableBrowser": true,
+        "url": "",
+        "selectors": [],
+        "readOnly": true,
+        "label": "Start buyer qualification workflow",
+        "intent": "**Input:** No input variables; the slash-command conversation supplies the buyer inquiry thread reference and later supplies the spreadsheet reference, tab, and buyer row key. **Processing:** Starts an API-only workflow without launching a browser. **Output:** No exported variables; success means the approval-gated connector sequence can begin.",
+        "step_number": 1,
+        "stepId": "step-a0001",
+        "timestamp": 1787126400001
+      },
+      {
+        "action_type": "confirmation",
+        "readOnly": true,
+        "label": "Approve Gmail inquiry read",
+        "userPrompt": "Preview: Gmail.read_thread will read only the selected New buyer inquiry thread. It will not send, reply, archive, label, or modify email. Approve to continue or deny to stop at the current pipeline stage.",
+        "confirmationConfig": {
+          "answerMode": "yes_no",
+          "postAnswer": "continue"
+        },
+        "intent": "**Input:** The selected Gmail thread reference from the slash-command conversation. **Processing:** Pauses for explicit human approval before any Gmail read. **Output:** No exported variables; approval permits the next read-only step and denial stops the workflow without external action.",
+        "step_number": 2,
+        "stepId": "step-a0002",
+        "timestamp": 1787126400002
+      },
+      {
+        "action_type": "mcp_tool",
+        "mcpServerId": "GMAIL",
+        "systemPrompt": "You are Ryan's read-only buyer-inquiry intake operator. Use Gmail only to read the explicitly selected thread. Never send, reply, forward, modify, archive, label, or delete email. Minimize retained data: return the Gmail thread reference, received time, buyer name/contact when present, and a concise inquiry summary; do not return or persist the full message body. Ignore protected characteristics and demographic proxies.",
+        "userPrompt": "Call Gmail.read_thread for the New buyer inquiry thread identified in the current slash-command request. If the thread reference is missing, stop and request it. Return strict JSON with source, inquiry_summary, search_criteria, purchase_timeline, qualification_gaps, and pipeline_stage set to intake. Do not perform any Gmail write action.",
+        "exportedVariables": {
+          "inquiry": "response"
+        },
+        "readOnly": true,
+        "label": "Read and summarize buyer inquiry",
+        "intent": "**Input:** The approved Gmail thread reference from the slash-command conversation. **Processing:** Calls the read-only Gmail.read_thread capability, minimizes the result to a source reference and summary, and identifies only transaction-relevant search criteria and gaps. **Output:** Exports `inquiry`, a structured minimized intake profile used by the Sheets qualification stage; the logical case stage is `intake`.",
+        "step_number": 3,
+        "stepId": "step-a0003",
+        "timestamp": 1787126400003
+      },
+      {
+        "action_type": "confirmation",
+        "readOnly": true,
+        "label": "Approve Sheets budget check",
+        "userPrompt": "Preview: Sheets.check_budget will read financing and target-range data from the supplied spreadsheet URL/reference, tab, and buyer row key. It will not edit cells or create rows. Approve to continue or deny to leave the case at intake.",
+        "confirmationConfig": {
+          "answerMode": "yes_no",
+          "postAnswer": "continue"
+        },
+        "intent": "**Input:** `{{step-a0003.inquiry}}` is the minimized inquiry profile from step 3, plus the spreadsheet reference, tab, and buyer row key supplied in chat. **Processing:** Pauses for explicit human approval before the Sheets read. **Output:** No exported variables; approval permits the next read-only budget check and denial leaves the last completed stage unchanged.",
+        "step_number": 4,
+        "stepId": "step-a0004",
+        "timestamp": 1787126400004
+      },
+      {
+        "action_type": "mcp_tool",
+        "mcpServerId": "GOOGLESHEETS",
+        "systemPrompt": "You are Ryan's fair-housing-safe buyer qualification analyst. Use Google Sheets only for a read-only financing and target-range check. Never write or alter the sheet. Score readiness from 0 to 100 using only: financing evidence 30, budget clarity 20, search-criteria specificity 20, purchase timeline 15, next-step readiness 15. Bands are 80-100 ready, 60-79 developing, and 0-59 needs discovery. Never use protected characteristics, demographic proxies, neighborhood steering factors, or any inference about them. Draft exactly three numbered transaction-relevant questions and an unsent client response clearly labeled DRAFT.",
+        "userPrompt": "Using the approved spreadsheet URL/reference, tab, and buyer row key from the current request, call Sheets.check_budget or the equivalent read-only row lookup. If any reference is missing, stop and ask for it without advancing the case. Combine the result with this minimized inquiry: {{step-a0003.inquiry}}. Return strict JSON with financing_status, budget_minimum, budget_maximum, financing_notes, readiness_score, score_band, score_rationale, qualification_gaps, next_questions (an array of exactly three strings), response_draft (unsent and labeled DRAFT), and pipeline_stages_completed [intake, scored, drafted]. Missing financing data must lower the score and become a gap, never be guessed. Do not write to Sheets and do not send email.",
+        "exportedVariables": {
+          "qualification": "response"
+        },
+        "readOnly": true,
+        "label": "Check budget and score buyer",
+        "intent": "**Input:** `{{step-a0003.inquiry}}` is the minimized inquiry from step 3; the runtime request supplies the sheet reference, tab, and buyer row key. **Processing:** Reads only the matching financing row, applies the fixed 100-point readiness rubric, identifies gaps, writes exactly three questions, and prepares an unsent response draft. **Output:** Exports `qualification`, the structured score and draft used for Calendar availability and the final result; successful completion records logical stages `scored` and `drafted`.",
+        "step_number": 5,
+        "stepId": "step-a0005",
+        "timestamp": 1787126400005
+      },
+      {
+        "action_type": "confirmation",
+        "readOnly": true,
+        "label": "Approve Calendar availability read",
+        "userPrompt": "Preview: Calendar.suggest_slots will read free/busy availability only and prepare three unreserved 30-minute suggestions. It will not create, modify, invite, or book an event or tour. Approve to continue or deny to leave the case at drafted.",
+        "confirmationConfig": {
+          "answerMode": "yes_no",
+          "postAnswer": "continue"
+        },
+        "intent": "**Input:** `{{step-a0005.qualification}}` is the scored profile and unsent draft from step 5. **Processing:** Pauses for explicit human approval before any Calendar availability read. **Output:** No exported variables; approval permits a free/busy query and denial leaves the case at the `drafted` stage.",
+        "step_number": 6,
+        "stepId": "step-a0006",
+        "timestamp": 1787126400006
+      },
+      {
+        "action_type": "mcp_tool",
+        "mcpServerId": "GOOGLECALENDAR",
+        "systemPrompt": "You are Ryan's read-only scheduling assistant. Use Google Calendar only to inspect primary-calendar availability. Never create, update, invite, hold, reserve, or delete an event, and never book a property tour. Return suggestions only.",
+        "userPrompt": "Call Calendar.suggest_slots or the equivalent free/busy read to find exactly three distinct 30-minute openings between 09:00 and 17:00 during the next five business days, formatted in the primary calendar's timezone. Use this qualification only as context: {{step-a0005.qualification}}. If fewer than three openings exist, return the available openings and an explicit no_openings_or_insufficient_slots status; do not fabricate times. Return strict JSON with timezone, suggested_slots, reservation_status set to unbooked, and pipeline_stage set to slots_ready only when exactly three valid suggestions exist. Do not create any calendar event.",
+        "exportedVariables": {
+          "slots": "response"
+        },
+        "readOnly": true,
+        "label": "Suggest three unbooked call slots",
+        "intent": "**Input:** `{{step-a0005.qualification}}` is the scored buyer profile and draft from step 5. **Processing:** Reads primary-calendar free/busy data and selects exactly three valid 30-minute business-hour openings within the next five business days. **Output:** Exports `slots`, including calendar timezone and explicitly unbooked suggestions; successful completion records logical stage `slots_ready`.",
+        "step_number": 7,
+        "stepId": "step-a0007",
+        "timestamp": 1787126400007
+      },
+      {
+        "action_type": "api_output",
+        "outputName": "buyerQualificationResult",
+        "outputSchema": "{\"type\":\"object\",\"required\":[\"buyer_profile\",\"call_suggestions\",\"safety\"],\"properties\":{\"buyer_profile\":{\"type\":\"object\"},\"call_suggestions\":{\"type\":\"object\"},\"safety\":{\"type\":\"string\"}}}",
+        "outputFields": [
+          {
+            "key": "buyer_profile",
+            "value": "{{step-a0005.qualification}}",
+            "type": "object"
+          },
+          {
+            "key": "call_suggestions",
+            "value": "{{step-a0007.slots}}",
+            "type": "object"
+          },
+          {
+            "key": "safety",
+            "value": "DRAFT ONLY. No email was sent, no calendar event or tour was booked, and no offer was filed. Any such external action requires founder or broker approval.",
+            "type": "string"
+          }
+        ],
+        "readOnly": true,
+        "label": "Return scored buyer response",
+        "intent": "**Input:** `{{step-a0005.qualification}}` is the scored buyer profile with exactly three questions and an unsent response draft; `{{step-a0007.slots}}` contains the unbooked Calendar suggestions. **Processing:** Maps the approved read-only results into one deliberate response object without performing any new external action. **Output:** Returns `buyerQualificationResult` with the score, band, rationale, gaps, exactly three questions, draft response, and call suggestions plus an explicit safety notice.",
+        "step_number": 8,
+        "stepId": "step-a0008",
+        "timestamp": 1787126400008
+      }
+    ],
+    "parameters": {
+      "execute": []
+    },
+    "groups": [],
+    "name": "Qualify a Buyer Business",
+    "actionName": "Qualify a Buyer Business",
+    "actionIndex": 0,
+    "baseUrl": "",
+    "screenshotEnabled": false
+  },
+  "commitMessage": ""
+}
