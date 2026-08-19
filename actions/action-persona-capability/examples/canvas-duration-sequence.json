@@ -1,0 +1,105 @@
+{
+  "step_number": 5,
+  "action_type": "persona_capability",
+  "stepId": "step-a11ce",
+  "timestamp": 1710000000005,
+  "label": "Assemble Final Trailer",
+  "intent": "**Input:** Uses approved scene videos materialized from the requested duration.\\n\\n**Processing:** Starts the synchronized Canvas run and stitches every normalized scene in order.\\n\\n**Output:** Produces the final video artifact.",
+  "personaCapabilityConfig": {
+    "schemaVersion": 1,
+    "kind": "canvas_task_execution",
+    "execution": {
+      "type": "canvas_task_execution",
+      "canvas": {
+        "enabled": true,
+        "blueprintRef": "inline",
+        "artifactAllowlist": ["text_document", "image", "video", "file"],
+        "humanApproval": { "enabled": true },
+        "playbook": {
+          "captureOnSuccess": true,
+          "allowSave": true,
+          "allowReplay": true,
+          "promoteToOperator": false
+        },
+        "taskSequence": {
+          "schemaVersion": 1,
+          "type": "duration_chunked_media",
+          "durationInputKey": "trailerDurationSeconds",
+          "defaultDurationSeconds": 60,
+          "minDurationSeconds": 10,
+          "maxDurationSeconds": 60,
+          "segmentDurationSeconds": 10,
+          "storyTaskId": "movie-story",
+          "storyboardTemplateTaskId": "scene-storyboard-template",
+          "videoTemplateTaskId": "scene-video-template",
+          "stitchTaskId": "assemble-trailer",
+          "continuity": "previous_video_last_frame"
+        },
+        "taskTypes": [
+          {
+            "id": "assemble-trailer",
+            "label": "Assemble Final Trailer",
+            "description": "Stitch every approved scene into the final trailer.",
+            "artifactType": "video",
+            "execution": {
+              "type": "stitch_videos",
+              "sourceTaskIds": [],
+              "outputProfile": "1080p_30",
+              "audioPolicy": "keep"
+            },
+            "requiresApproval": true
+          }
+        ]
+      }
+    },
+    "canvasTask": {
+      "sequenceId": "canvas-duration-example",
+      "taskId": "assemble-trailer",
+      "taskIndex": 3,
+      "taskCount": 4,
+      "terminal": true,
+      "aggregateCanvas": {
+        "taskTypes": [
+          { "id": "movie-story", "label": "Movie Story", "artifactType": "text_document" },
+          {
+            "id": "scene-storyboard-template",
+            "label": "Scene {sceneNumber} Storyboard",
+            "artifactType": "image",
+            "execution": { "type": "tool", "toolId": "generate_image" }
+          },
+          {
+            "id": "scene-video-template",
+            "label": "Scene {sceneNumber} Video",
+            "artifactType": "video",
+            "execution": { "type": "tool", "toolId": "generate_video" }
+          },
+          {
+            "id": "assemble-trailer",
+            "label": "Assemble Final Trailer",
+            "artifactType": "video",
+            "execution": {
+              "type": "stitch_videos",
+              "sourceTaskIds": [],
+              "outputProfile": "force_1080p_30",
+              "audioPolicy": "keep"
+            }
+          }
+        ],
+        "taskSequence": {
+          "schemaVersion": 1,
+          "type": "duration_chunked_media",
+          "durationInputKey": "trailerDurationSeconds",
+          "defaultDurationSeconds": 60,
+          "minDurationSeconds": 10,
+          "maxDurationSeconds": 60,
+          "segmentDurationSeconds": 10,
+          "storyTaskId": "movie-story",
+          "storyboardTemplateTaskId": "scene-storyboard-template",
+          "videoTemplateTaskId": "scene-video-template",
+          "stitchTaskId": "assemble-trailer",
+          "continuity": "previous_video_last_frame"
+        }
+      }
+    }
+  }
+}

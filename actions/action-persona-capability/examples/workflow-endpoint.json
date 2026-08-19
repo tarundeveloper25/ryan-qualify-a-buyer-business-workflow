@@ -1,0 +1,21 @@
+{
+  "step_number": 2,
+  "action_type": "persona_capability",
+  "stepId": "step-e0001",
+  "timestamp": 1710000000001,
+  "label": "Restock groceries",
+  "intent": "**Input:** Uses persona command arguments and configured endpoint inputs.\\n\\n**Processing:** Calls the existing workflow endpoint synchronously.\\n\\n**Output:** Exposes the endpoint response and run ID to downstream steps.",
+  "personaCapabilityConfig": {
+    "schemaVersion": 1,
+    "kind": "workflow_endpoint",
+    "execution": {
+      "type": "workflow_endpoint",
+      "appId": "grocery-twin",
+      "endpointSlug": "restock",
+      "inputs": {
+        "source": "persona"
+      }
+    },
+    "promptTemplate": "{args}"
+  }
+}

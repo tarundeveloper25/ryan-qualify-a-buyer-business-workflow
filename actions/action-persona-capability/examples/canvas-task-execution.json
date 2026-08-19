@@ -1,0 +1,74 @@
+{
+  "step_number": 2,
+  "action_type": "persona_capability",
+  "stepId": "step-ca001",
+  "timestamp": 1710000000001,
+  "label": "Render grocery ad",
+  "intent": "**Input:** Uses the approved storyboard.\\n\\n**Processing:** Defines the final editable Canvas task and delegates the synchronized playbook.\\n\\n**Output:** Returns a child execution ID and finishes the parent as delegated.",
+  "personaCapabilityConfig": {
+    "schemaVersion": 1,
+    "kind": "canvas_task_execution",
+    "execution": {
+      "type": "canvas_task_execution",
+      "canvas": {
+        "enabled": true,
+        "blueprintRef": "inline",
+        "artifactAllowlist": ["text_document", "image", "video"],
+        "humanApproval": {
+          "enabled": true
+        },
+        "taskTypes": [
+          {
+            "id": "render",
+            "label": "Render grocery ad",
+            "artifactType": "video",
+            "dependsOn": ["brief"],
+            "allowSkip": true
+          }
+        ],
+        "playbook": {
+          "captureOnSuccess": true,
+          "allowSave": true,
+          "allowReplay": true,
+          "promoteToOperator": false
+        }
+      }
+    },
+    "canvasTask": {
+      "sequenceId": "canvas-grocery-ad",
+      "taskId": "render",
+      "taskIndex": 1,
+      "taskCount": 2,
+      "terminal": true,
+      "aggregateCanvas": {
+        "enabled": true,
+        "blueprintRef": "inline",
+        "artifactAllowlist": ["text_document", "image", "video"],
+        "humanApproval": {
+          "enabled": true
+        },
+        "taskTypes": [
+          {
+            "id": "brief",
+            "label": "Creative brief",
+            "artifactType": "text_document"
+          },
+          {
+            "id": "render",
+            "label": "Render grocery ad",
+            "artifactType": "video",
+            "dependsOn": ["brief"],
+            "allowSkip": true
+          }
+        ],
+        "playbook": {
+          "captureOnSuccess": true,
+          "allowSave": true,
+          "allowReplay": true,
+          "promoteToOperator": false
+        }
+      }
+    },
+    "promptTemplate": "Create a grocery ad for {args}"
+  }
+}

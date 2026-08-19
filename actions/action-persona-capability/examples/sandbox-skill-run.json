@@ -1,0 +1,39 @@
+{
+  "step_number": 2,
+  "action_type": "persona_capability",
+  "stepId": "step-a11ce",
+  "timestamp": 1774800000000,
+  "label": "Run retained persona skill",
+  "intent": "**Input:** Uses commandArgs supplied by the persona invocation.\n\n**Processing:** Delegates to the configured retained sandbox skill runtime.\n\n**Output:** Exports response for downstream workflow steps.",
+  "personaCapabilityConfig": {
+    "schemaVersion": 1,
+    "kind": "sandbox_skill_run",
+    "execution": {
+      "type": "sandbox_skill_run",
+      "skillIds": [
+        "skill-example"
+      ],
+      "timeoutSeconds": 300,
+      "sandboxAgentGroupId": "example-production",
+      "modelProfile": {
+        "textModel": "approved-text-model",
+        "ttsProviderConfigId": "saved-tts-resource",
+        "ttsModel": "approved-tts-model",
+        "ttsVoice": "approved-voice"
+      },
+      "modelOverridePolicy": {
+        "enabled": true,
+        "allowed": {
+          "textModel": [
+            "approved-text-model",
+            "approved-alternate-text-model"
+          ]
+        }
+      }
+    },
+    "promptTemplate": "Complete this request: {args}"
+  },
+  "exportedVariables": {
+    "response": "variables.response"
+  }
+}

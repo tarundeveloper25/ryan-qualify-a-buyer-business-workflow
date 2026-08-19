@@ -1,0 +1,17 @@
+{
+  "step_number": 2,
+  "action_type": "persona_capability",
+  "stepId": "step-70001",
+  "timestamp": 1710000000001,
+  "label": "Propose grocery cart",
+  "intent": "**Input:** Uses persona command arguments.\\n\\n**Processing:** Invokes only the approved grocery cart tool.\\n\\n**Output:** Returns the structured cart proposal in step variables.",
+  "personaCapabilityConfig": {
+    "schemaVersion": 1,
+    "kind": "tool",
+    "execution": {
+      "type": "tool",
+      "toolId": "propose_cart_bundle"
+    },
+    "promptTemplate": "Plan a complete bundle for: {args}"
+  }
+}
