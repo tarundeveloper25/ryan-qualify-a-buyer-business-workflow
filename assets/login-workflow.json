@@ -1,0 +1,16 @@
+{
+  "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+  "structure": {
+    "name": "login authentication",
+    "steps": [],
+    "parameters": {
+      "execute": []
+    },
+    "baseUrl": "",
+    "actionIndex": 0,
+    "actionName": "login authentication",
+    "screenshotEnabled": false,
+    "groups": []
+  },
+  "commitMessage": ""
+}
