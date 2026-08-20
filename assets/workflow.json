@@ -140,5 +140,5 @@
     "baseUrl": "",
     "screenshotEnabled": false
   },
-  "commitMessage": ""
+  "commitMessage": "Initial migration from database"
 }

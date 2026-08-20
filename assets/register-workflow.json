@@ -1,16 +1,16 @@
 {
   "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
   "structure": {
-    "name": "register authentication",
     "steps": [],
     "parameters": {
       "execute": []
     },
-    "baseUrl": "",
+    "groups": [],
+    "name": "Qualify a Buyer Business",
+    "actionName": "Qualify a Buyer Business",
     "actionIndex": 0,
-    "actionName": "register authentication",
-    "screenshotEnabled": false,
-    "groups": []
+    "baseUrl": "",
+    "screenshotEnabled": false
   },
-  "commitMessage": ""
+  "commitMessage": "Initial register auth sidecar"
 }
