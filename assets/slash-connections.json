@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "commandId": "qualify-a-buyer-business",
+  "trigger": "qualify-a-buyer-business",
+  "label": "Qualify a buyer",
+  "updatedAt": 1787207412011,
+  "nodes": [
+    {
+      "id": "slash:qualify-a-buyer-business",
+      "kind": "slash",
+      "label": "/qualify-a-buyer-business",
+      "description": "Read a buyer inquiry, score readiness, draft exactly three next questions, and prepare three unbooked call slots through approval-gated Gmail, Sheets, and Calendar reads.",
+      "meta": {
+        "commandId": "qualify-a-buyer-business",
+        "trigger": "qualify-a-buyer-business"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0002",
+      "kind": "workflow_step",
+      "label": "Approve Gmail inquiry read",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "confirmation",
+        "stepNumber": 2,
+        "stepId": "step-a0002",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0003",
+      "kind": "workflow_step",
+      "label": "Read and summarize buyer inquiry",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "mcp_tool",
+        "stepNumber": 3,
+        "stepId": "step-a0003",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0004",
+      "kind": "workflow_step",
+      "label": "Approve Sheets budget check",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "confirmation",
+        "stepNumber": 4,
+        "stepId": "step-a0004",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0005",
+      "kind": "workflow_step",
+      "label": "Check budget and score buyer",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "mcp_tool",
+        "stepNumber": 5,
+        "stepId": "step-a0005",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0006",
+      "kind": "workflow_step",
+      "label": "Approve Calendar availability read",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "confirmation",
+        "stepNumber": 6,
+        "stepId": "step-a0006",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0007",
+      "kind": "workflow_step",
+      "label": "Suggest three unbooked call slots",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "mcp_tool",
+        "stepNumber": 7,
+        "stepId": "step-a0007",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    },
+    {
+      "id": "operator-step:qualify-a-buyer-business:step-a0008",
+      "kind": "workflow_step",
+      "label": "Return scored buyer response",
+      "description": "Operator workflow step",
+      "meta": {
+        "actionType": "api_output",
+        "stepNumber": 8,
+        "stepId": "step-a0008",
+        "actionId": "253e9544-882b-445c-ba02-c1b15799db65",
+        "repositoryHead": "000f4406f676780b3fc7eaea60e83f98b1c56c0b"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge:slash:qualify-a-buyer-business:executes:operator-step:qualify-a-buyer-business:step-a0002:1",
+      "source": "slash:qualify-a-buyer-business",
+      "target": "operator-step:qualify-a-buyer-business:step-a0002",
+      "relation": "executes"
+    },
+    {
+      "id": "edge:operator-step:qualify-a-buyer-business:step-a0002:continues:operator-step:qualify-a-buyer-business:step-a0003:2",
+      "source": "operator-step:qualify-a-buyer-business:step-a0002",
+      "target": "operator-step:qualify-a-buyer-business:step-a0003",
+      "relation": "continues"
+    },
+    {
+      "id": "edge:operator-step:qualify-a-buyer-business:step-a0003:continues:operator-step:qualify-a-buyer-business:step-a0004:3",
+      "source": "operator-step:qualify-a-buyer-business:step-a0003",
+      "target": "operator-step:qualify-a-buyer-business:step-a0004",
+      "relation": "continues"
+    },
+    {
+      "id": "edge:operator-step:qualify-a-buyer-business:step-a0004:continues:operator-step:qualify-a-buyer-business:step-a0005:4",
+      "source": "operator-step:qualify-a-buyer-business:step-a0004",
+      "target": "operator-step:qualify-a-buyer-business:step-a0005",
+      "relation": "continues"
+    },
+    {
+      "id": "edge:operator-step:qualify-a-buyer-business:step-a0005:continues:operator-step:qualify-a-buyer-business:step-a0006:5",
+      "source": "operator-step:qualify-a-buyer-business:step-a0005",
+      "target": "operator-step:qualify-a-buyer-business:step-a0006",
+      "relation": "continues"
+    },
+    {
+      "id": "edge:operator-step:qualify-a-buyer-business:step-a0006:continues:operator-step:qualify-a-buyer-business:step-a0007:6",
+      "source": "operator-step:qualify-a-buyer-business:step-a0006",
+      "target": "operator-step:qualify-a-buyer-business:step-a0007",
+      "relation": "continues"
+    },
+    {
+      "id": "edge:operator-step:qualify-a-buyer-business:step-a0007:continues:operator-step:qualify-a-buyer-business:step-a0008:7",
+      "source": "operator-step:qualify-a-buyer-business:step-a0007",
+      "target": "operator-step:qualify-a-buyer-business:step-a0008",
+      "relation": "continues"
+    }
+  ],
+  "relatedTodoIds": []
+}
