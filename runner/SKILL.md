@@ -1,9 +1,9 @@
 ---
-name: qualify-a-buyer-business-runner
-description: Run the "Qualify a Buyer Business" action through the automation API and poll run status.
+name: qualify-a-buyer-runner
+description: Run the "Qualify a buyer" action through the automation API and poll run status.
 ---
 
-# Qualify a Buyer Business Runner
+# Qualify a buyer Runner
 
 ## Goal
 Run an existing action and return the `runId` so the caller can track progress.
@@ -16,7 +16,7 @@ Run an existing action and return the `runId` so the caller can track progress.
 This action has no required runtime inputs.
 
 ## Start Run
-- Endpoint: `POST https://gabrieloperator.com/api/automation/run/0ec94bd1-83bc-4bdc-a529-1f62c0150453/253e9544-882b-445c-ba02-c1b15799db65`
+- Endpoint: `POST https://gabrieloperator.com/api/automation/run/0ec94bd1-83bc-4bdc-a529-1f62c0150453/6a86eb6cb8a54c2e1a012033`
 - JSON body:
 
 ```json
@@ -75,6 +75,6 @@ The status endpoint returns:
 Resume the run with:
 ```
 POST https://gabrieloperator.com/api/automation/resume/{runId}
-{ "agentId": "0ec94bd1-83bc-4bdc-a529-1f62c0150453", "actionId": "253e9544-882b-445c-ba02-c1b15799db65" }
+{ "agentId": "0ec94bd1-83bc-4bdc-a529-1f62c0150453", "actionId": "6a86eb6cb8a54c2e1a012033" }
 ```
 

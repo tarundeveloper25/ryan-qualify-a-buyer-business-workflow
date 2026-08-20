@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "persona_slash_command",
+  "pageId": "0ec94bd1-83bc-4bdc-a529-1f62c0150453",
+  "commandId": "qualify-a-buyer-business",
+  "operatorActionId": "6a86eb6cb8a54c2e1a012033",
+  "commandTrigger": "qualify-a-buyer-business",
+  "commandLabel": "Qualify a buyer",
+  "commandDescription": "Read a buyer inquiry, check financing and target range, score readiness, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates.",
+  "personaRepository": {
+    "remoteUrl": "https://github.com/tarundeveloper25/persona-ryan.git",
+    "defaultBranch": "main",
+    "configPath": "assets/chat-config.json",
+    "owns": [
+      "command trigger",
+      "label and description",
+      "enabled state",
+      "presentation",
+      "Operator action reference"
+    ]
+  },
+  "workflowRepository": {
+    "remoteUrl": "https://github.com/tarundeveloper25/ryan-qualify-a-buyer-business-workflow.git",
+    "defaultBranch": "main",
+    "workflowPath": "assets/workflow.json",
+    "slashConnectionsPath": "assets/slash-connections.json",
+    "owns": [
+      "executable workflow steps",
+      "prompts and runtime configuration",
+      "inputs and outputs",
+      "generated child skills",
+      "slash connection debug graph",
+      "persona-command authoring skill"
+    ]
+  }
+}
