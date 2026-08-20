@@ -3,7 +3,7 @@
   "commandId": "qualify-a-buyer-business",
   "trigger": "qualify-a-buyer-business",
   "label": "Qualify a buyer",
-  "updatedAt": 1787239782991,
+  "updatedAt": 1787240235345,
   "nodes": [
     {
       "id": "slash:qualify-a-buyer-business",
