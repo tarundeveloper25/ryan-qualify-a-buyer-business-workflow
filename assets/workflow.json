@@ -6,8 +6,9 @@
     "actionName": "Qualify a Buyer Business",
     "baseUrl": "",
     "screenshotEnabled": false,
-    "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
-    "parameters": {"execute": []},
+    "parameters": {
+      "execute": []
+    },
     "groups": [],
     "steps": [
       {
@@ -20,24 +21,54 @@
         "personaCapabilityConfig": {
           "schemaVersion": 1,
           "kind": "canvas_task_execution",
-          "execution": {"type": "canvas_task_execution", "canvas": {
-            "enabled": true,
-            "blueprintRef": "inline",
-            "artifactAllowlist": ["text_document"],
-            "humanApproval": {"enabled": true},
-            "taskTypes": [{
-              "id": "read-gmail",
-              "label": "Gmail",
-              "description": "Gmail.read_thread — New buyer inquiry. For the mock path, use case RYAN-BUYER-001 and the seeded Maya Chen inquiry exactly; clearly label the source as mock fallback. Never send or modify email.",
-              "artifactType": "text_document",
-              "artifactPolicy": "none",
-              "requiresApproval": true,
-              "autoApprove": false,
-              "execution": {"type": "pipeline_transition", "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"}, "transitionId": "score_buyer", "operation": "start", "fromStageId": "intake", "toStageId": "scored"}
-            }],
-            "playbook": {"captureOnSuccess": true, "allowSave": true, "allowReplay": true, "promoteToOperator": false}
-          }},
-          "canvasTask": {"sequenceId": "ryan-buyer-qualification", "taskId": "read-gmail", "taskIndex": 0, "taskCount": 3, "terminal": false},
+          "execution": {
+            "type": "canvas_task_execution",
+            "canvas": {
+              "enabled": true,
+              "blueprintRef": "inline",
+              "artifactAllowlist": [
+                "text_document"
+              ],
+              "humanApproval": {
+                "enabled": true
+              },
+              "taskTypes": [
+                {
+                  "id": "read-gmail",
+                  "label": "Gmail",
+                  "description": "Gmail.read_thread — New buyer inquiry. For the mock path, use case RYAN-BUYER-001 and the seeded Maya Chen inquiry exactly; clearly label the source as mock fallback. Never send or modify email.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "requiresApproval": true,
+                  "autoApprove": false,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {
+                      "kind": "pipeline",
+                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+                    },
+                    "transitionId": "score_buyer",
+                    "operation": "start",
+                    "fromStageId": "intake",
+                    "toStageId": "scored"
+                  }
+                }
+              ],
+              "playbook": {
+                "captureOnSuccess": true,
+                "allowSave": true,
+                "allowReplay": true,
+                "promoteToOperator": false
+              }
+            }
+          },
+          "canvasTask": {
+            "sequenceId": "ryan-buyer-qualification",
+            "taskId": "read-gmail",
+            "taskIndex": 0,
+            "taskCount": 3,
+            "terminal": false
+          },
           "promptTemplate": "Read this buyer inquiry, qualify fit, and draft the next response with three questions. Use RYAN-BUYER-001 mock fallback unless a live Gmail connector is explicitly selected and approved. {args}"
         }
       },
@@ -51,25 +82,57 @@
         "personaCapabilityConfig": {
           "schemaVersion": 1,
           "kind": "canvas_task_execution",
-          "execution": {"type": "canvas_task_execution", "canvas": {
-            "enabled": true,
-            "blueprintRef": "inline",
-            "artifactAllowlist": ["text_document"],
-            "humanApproval": {"enabled": true},
-            "taskTypes": [{
-              "id": "check-budget",
-              "label": "Sheets",
-              "description": "Sheets.check_budget — Financing and target range. For the mock path, use Maya Chen, Westbrook 3 bed / 2 bath, pre-approval cap 560000, target range 485000–560000, down payment 112000, monthly housing maximum 3200, Westbrook median 529000, comps 541000 and 512000, score 82, band strong. Draft exactly three questions about schools, commute, and cash versus financed closing. Never write to Sheets or send the draft.",
-              "artifactType": "text_document",
-              "artifactPolicy": "none",
-              "dependsOn": ["read-gmail"],
-              "requiresApproval": true,
-              "autoApprove": false,
-              "execution": {"type": "pipeline_transition", "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"}, "transitionId": "draft_response", "operation": "advance", "fromStageId": "scored", "toStageId": "drafted"}
-            }],
-            "playbook": {"captureOnSuccess": true, "allowSave": true, "allowReplay": true, "promoteToOperator": false}
-          }},
-          "canvasTask": {"sequenceId": "ryan-buyer-qualification", "taskId": "check-budget", "taskIndex": 1, "taskCount": 3, "terminal": false},
+          "execution": {
+            "type": "canvas_task_execution",
+            "canvas": {
+              "enabled": true,
+              "blueprintRef": "inline",
+              "artifactAllowlist": [
+                "text_document"
+              ],
+              "humanApproval": {
+                "enabled": true
+              },
+              "taskTypes": [
+                {
+                  "id": "check-budget",
+                  "label": "Sheets",
+                  "description": "Sheets.check_budget — Financing and target range. For the mock path, use Maya Chen, Westbrook 3 bed / 2 bath, pre-approval cap 560000, target range 485000–560000, down payment 112000, monthly housing maximum 3200, Westbrook median 529000, comps 541000 and 512000, score 82, band strong. Draft exactly three questions about schools, commute, and cash versus financed closing. Never write to Sheets or send the draft.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "dependsOn": [
+                    "read-gmail"
+                  ],
+                  "requiresApproval": true,
+                  "autoApprove": false,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {
+                      "kind": "pipeline",
+                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+                    },
+                    "transitionId": "draft_response",
+                    "operation": "advance",
+                    "fromStageId": "scored",
+                    "toStageId": "drafted"
+                  }
+                }
+              ],
+              "playbook": {
+                "captureOnSuccess": true,
+                "allowSave": true,
+                "allowReplay": true,
+                "promoteToOperator": false
+              }
+            }
+          },
+          "canvasTask": {
+            "sequenceId": "ryan-buyer-qualification",
+            "taskId": "check-budget",
+            "taskIndex": 1,
+            "taskCount": 3,
+            "terminal": false
+          },
           "promptTemplate": "Check the seeded budget and comps for RYAN-BUYER-001 unless a live Sheets connector is explicitly selected and approved. Preserve score 82, band strong, and exactly three required questions. {args}"
         }
       },
@@ -83,24 +146,50 @@
         "personaCapabilityConfig": {
           "schemaVersion": 1,
           "kind": "canvas_task_execution",
-          "execution": {"type": "canvas_task_execution", "canvas": {
-            "enabled": true,
-            "blueprintRef": "inline",
-            "artifactAllowlist": ["text_document"],
-            "humanApproval": {"enabled": true},
-            "taskTypes": [{
-              "id": "suggest-slots",
-              "label": "Calendar",
-              "description": "Calendar.suggest_slots — Intro call availability. For the mock path, return exactly and only these unbooked strings: 2026-09-08 17:30 PT; 2026-09-09 18:00 PT; 2026-09-10 12:00 PT. Set the same case stage to slots_ready. Never create, reserve, update, or delete an event; never book a tour or file an offer.",
-              "artifactType": "text_document",
-              "artifactPolicy": "none",
-              "dependsOn": ["check-budget"],
-              "requiresApproval": true,
-              "autoApprove": false,
-              "execution": {"type": "pipeline_transition", "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"}, "transitionId": "prepare_slots", "operation": "advance", "fromStageId": "drafted", "toStageId": "slots_ready"}
-            }],
-            "playbook": {"captureOnSuccess": true, "allowSave": true, "allowReplay": true, "promoteToOperator": false}
-          }},
+          "execution": {
+            "type": "canvas_task_execution",
+            "canvas": {
+              "enabled": true,
+              "blueprintRef": "inline",
+              "artifactAllowlist": [
+                "text_document"
+              ],
+              "humanApproval": {
+                "enabled": true
+              },
+              "taskTypes": [
+                {
+                  "id": "suggest-slots",
+                  "label": "Calendar",
+                  "description": "Calendar.suggest_slots — Intro call availability. For the mock path, return exactly and only these unbooked strings: 2026-09-08 17:30 PT; 2026-09-09 18:00 PT; 2026-09-10 12:00 PT. Set the same case stage to slots_ready. Never create, reserve, update, or delete an event; never book a tour or file an offer.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "dependsOn": [
+                    "check-budget"
+                  ],
+                  "requiresApproval": true,
+                  "autoApprove": false,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {
+                      "kind": "pipeline",
+                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+                    },
+                    "transitionId": "prepare_slots",
+                    "operation": "advance",
+                    "fromStageId": "drafted",
+                    "toStageId": "slots_ready"
+                  }
+                }
+              ],
+              "playbook": {
+                "captureOnSuccess": true,
+                "allowSave": true,
+                "allowReplay": true,
+                "promoteToOperator": false
+              }
+            }
+          },
           "canvasTask": {
             "sequenceId": "ryan-buyer-qualification",
             "taskId": "suggest-slots",
@@ -110,20 +199,97 @@
             "aggregateCanvas": {
               "enabled": true,
               "blueprintRef": "inline",
-              "artifactAllowlist": ["text_document"],
-              "humanApproval": {"enabled": true},
-              "taskTypes": [
-                {"id": "read-gmail", "label": "Gmail", "description": "Gmail.read_thread — use the approved live read or explicitly identified RYAN-BUYER-001 mock inquiry.", "artifactType": "text_document", "artifactPolicy": "none", "requiresApproval": true, "autoApprove": false, "execution": {"type": "pipeline_transition", "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"}, "transitionId": "score_buyer", "operation": "start", "fromStageId": "intake", "toStageId": "scored"}},
-                {"id": "check-budget", "label": "Sheets", "description": "Sheets.check_budget — use approved live values or the exact RYAN-BUYER-001 budget/comps; score 82, band strong, exactly three questions.", "artifactType": "text_document", "artifactPolicy": "none", "dependsOn": ["read-gmail"], "requiresApproval": true, "autoApprove": false, "execution": {"type": "pipeline_transition", "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"}, "transitionId": "draft_response", "operation": "advance", "fromStageId": "scored", "toStageId": "drafted"}},
-                {"id": "suggest-slots", "label": "Calendar", "description": "Calendar.suggest_slots — mock output is exactly 2026-09-08 17:30 PT, 2026-09-09 18:00 PT, and 2026-09-10 12:00 PT; unbooked; final state slots_ready. Completion: Buyer profile scored, next questions drafted, and call slots prepared.", "artifactType": "text_document", "artifactPolicy": "none", "dependsOn": ["check-budget"], "requiresApproval": true, "autoApprove": false, "execution": {"type": "pipeline_transition", "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"}, "transitionId": "prepare_slots", "operation": "advance", "fromStageId": "drafted", "toStageId": "slots_ready"}}
+              "artifactAllowlist": [
+                "text_document"
               ],
-              "playbook": {"captureOnSuccess": true, "allowSave": true, "allowReplay": true, "promoteToOperator": false}
+              "humanApproval": {
+                "enabled": true
+              },
+              "taskTypes": [
+                {
+                  "id": "read-gmail",
+                  "label": "Gmail",
+                  "description": "Gmail.read_thread — use the approved live read or explicitly identified RYAN-BUYER-001 mock inquiry.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "requiresApproval": true,
+                  "autoApprove": false,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {
+                      "kind": "pipeline",
+                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+                    },
+                    "transitionId": "score_buyer",
+                    "operation": "start",
+                    "fromStageId": "intake",
+                    "toStageId": "scored"
+                  }
+                },
+                {
+                  "id": "check-budget",
+                  "label": "Sheets",
+                  "description": "Sheets.check_budget — use approved live values or the exact RYAN-BUYER-001 budget/comps; score 82, band strong, exactly three questions.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "dependsOn": [
+                    "read-gmail"
+                  ],
+                  "requiresApproval": true,
+                  "autoApprove": false,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {
+                      "kind": "pipeline",
+                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+                    },
+                    "transitionId": "draft_response",
+                    "operation": "advance",
+                    "fromStageId": "scored",
+                    "toStageId": "drafted"
+                  }
+                },
+                {
+                  "id": "suggest-slots",
+                  "label": "Calendar",
+                  "description": "Calendar.suggest_slots — mock output is exactly 2026-09-08 17:30 PT, 2026-09-09 18:00 PT, and 2026-09-10 12:00 PT; unbooked; final state slots_ready. Completion: Buyer profile scored, next questions drafted, and call slots prepared.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "dependsOn": [
+                    "check-budget"
+                  ],
+                  "requiresApproval": true,
+                  "autoApprove": false,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {
+                      "kind": "pipeline",
+                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+                    },
+                    "transitionId": "prepare_slots",
+                    "operation": "advance",
+                    "fromStageId": "drafted",
+                    "toStageId": "slots_ready"
+                  }
+                }
+              ],
+              "playbook": {
+                "captureOnSuccess": true,
+                "allowSave": true,
+                "allowReplay": true,
+                "promoteToOperator": false
+              }
             }
           },
           "promptTemplate": "Return the final RYAN-BUYER-001 qualification using approved Canvas cards. Preserve Maya Chen, score 82, band strong, exactly three required questions, the three literal unbooked PT slots, case stage slots_ready, and the exact completion sentence. {args}"
         }
       }
-    ]
+    ],
+    "actionIndex": 0,
+    "pipelineRef": {
+      "kind": "pipeline",
+      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
+    }
   },
-  "commitMessage": "Convert buyer qualification slash workflow to approval-gated inline Canvas"
+  "commitMessage": ""
 }
