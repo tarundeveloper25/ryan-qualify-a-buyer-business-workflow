@@ -58,7 +58,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "score_buyer",
-                    "operation": "start",
+                    "operation": "advance",
                     "fromStageId": "intake",
                     "toStageId": "scored"
                   }
@@ -231,7 +231,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "score_buyer",
-                    "operation": "start",
+                    "operation": "advance",
                     "fromStageId": "intake",
                     "toStageId": "scored"
                   }
