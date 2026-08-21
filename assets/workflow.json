@@ -58,9 +58,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "score_buyer",
-                    "operation": "advance",
-                    "fromStageId": "intake",
-                    "toStageId": "scored"
+                    "operation": "advance"
                   }
                 }
               ],
@@ -122,9 +120,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "draft_response",
-                    "operation": "advance",
-                    "fromStageId": "scored",
-                    "toStageId": "drafted"
+                    "operation": "advance"
                   }
                 }
               ],
@@ -186,9 +182,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "prepare_slots",
-                    "operation": "advance",
-                    "fromStageId": "drafted",
-                    "toStageId": "slots_ready"
+                    "operation": "advance"
                   }
                 }
               ],
@@ -231,9 +225,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "score_buyer",
-                    "operation": "advance",
-                    "fromStageId": "intake",
-                    "toStageId": "scored"
+                    "operation": "advance"
                   }
                 },
                 {
@@ -254,9 +246,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "draft_response",
-                    "operation": "advance",
-                    "fromStageId": "scored",
-                    "toStageId": "drafted"
+                    "operation": "advance"
                   }
                 },
                 {
@@ -277,9 +267,7 @@
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
                     "transitionId": "prepare_slots",
-                    "operation": "advance",
-                    "fromStageId": "drafted",
-                    "toStageId": "slots_ready"
+                    "operation": "advance"
                   }
                 }
               ],
