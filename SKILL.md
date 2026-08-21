@@ -45,16 +45,6 @@ New workflow repositories must use a stable resource key and portable dependency
 - Import resolves refs into environment-local IDs before execution. Runtime runs and audit records may store those resolved IDs; Git must not.
 - Legacy schema v1 runs only when its exact local IDs exist. Never copy v1 between environments or generate a new v1 export.
 
-This scaffold declares its required validator in root `gabriel.workspace.json`. Keep that
-manifest, `scripts/validate-workflow.ts`, and `assets/workflow.json` together. In a Persona
-workspace, commit and push this repository first; the parent publisher verifies that the
-pinned SHA is reachable from this repo's declared branch before advancing the Persona lock.
-Several commands may share this Workflow's one registry entry.
-Unmarked older child repos use the parent's loud legacy-validator fallback. Do not remove
-this marker from new repos. If the parent reports a stale link, run its `prune`; it removes
-only Git metadata and preserves this checkout. Never publish the parent before this child
-commit is pushed.
-
 ## Using this skill in coding agents
 
 Gabriel Operator skills are designed for Claude Code, Codex, Cursor, Hermes, OpenClaw, and any agent that supports skill packs. Work in the git-backed workflow repository connected to your automation.

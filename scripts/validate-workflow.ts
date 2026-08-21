@@ -62,16 +62,6 @@ const VALID_HTTP_METHODS = [
 ] as const;
 
 const STEP_ID_PATTERN = /^step-[a-f0-9]{5}$/;
-const FORBIDDEN_PORTABLE_KEYS = new Set([
-  "appId",
-  "endpointId",
-  "actionId",
-  "pageId",
-  "userId",
-  "pipelineId",
-  "listId",
-  "collectionId",
-]);
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -85,20 +75,6 @@ function err(path: string, message: string): void {
 
 function isObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
-}
-
-function validateNoLocalIds(value: unknown, path = "$" ): void {
-  if (Array.isArray(value)) {
-    value.forEach((child, index) => validateNoLocalIds(child, `${path}[${index}]`));
-    return;
-  }
-  if (!isObject(value)) return;
-  for (const [key, child] of Object.entries(value)) {
-    if (FORBIDDEN_PORTABLE_KEYS.has(key)) {
-      err(`${path}.${key}`, "is environment-local and forbidden in schemaVersion 2");
-    }
-    validateNoLocalIds(child, `${path}.${key}`);
-  }
 }
 
 function validateWorkflowCanvasBlueprint(canvas: unknown, path: string): void {
@@ -588,14 +564,6 @@ function validateWorkflow(data: unknown): void {
     err("(root)", "must be an object");
     return;
   }
-
-  if (data.schemaVersion !== undefined && data.schemaVersion !== 1 && data.schemaVersion !== 2) {
-    err('schemaVersion', 'must be 1 or 2 when present');
-  }
-  if (data.schemaVersion === 2 && (typeof data.resourceKey !== 'string' || !data.resourceKey.trim())) {
-    err('resourceKey', 'is required for schemaVersion 2');
-  }
-  if (data.schemaVersion === 2) validateNoLocalIds(data);
 
   // Top-level keys
   if (!isObject(data.structure)) {

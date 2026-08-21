@@ -1,15 +1,18 @@
 {
   "schemaVersion": 2,
-  "commandId": "qualify-a-buyer-business",
+  "commandKey": "qualify-a-buyer-business",
   "trigger": "qualify-a-buyer-business",
   "label": "Qualify a buyer",
-  "updatedAt": 1787291019154,
   "nodes": [
     {
       "id": "slash:qualify-a-buyer-business",
       "kind": "slash",
-      "label": "Qualify a buyer",
-      "description": "Read a buyer inquiry, check financing and target range, score fit, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates with a deterministic mock fallback."
+      "label": "/qualify-a-buyer-business",
+      "description": "Read a buyer inquiry, check financing and target range, score readiness, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates.",
+      "meta": {
+        "commandKey": "qualify-a-buyer-business",
+        "trigger": "qualify-a-buyer-business"
+      }
     }
   ],
   "edges": [],

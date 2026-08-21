@@ -6,7 +6,7 @@
   "operatorActionId": "6a86eb6cb8a54c2e1a012033",
   "commandTrigger": "qualify-a-buyer-business",
   "commandLabel": "Qualify a buyer",
-  "commandDescription": "Read a buyer inquiry, check financing and target range, score fit, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates with a deterministic mock fallback.",
+  "commandDescription": "Read a buyer inquiry, check financing and target range, score readiness, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates.",
   "personaRepository": {
     "remoteUrl": "https://github.com/tarundeveloper25/persona-ryan.git",
     "defaultBranch": "main",
