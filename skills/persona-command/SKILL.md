@@ -16,7 +16,7 @@ Use this skill whenever the author asks what /qualify-a-buyer-business does, wan
 
 - Command: `/qualify-a-buyer-business`
 - Operator action id: `6a86eb6cb8a54c2e1a012033`
-- Current description: Read a buyer inquiry, check financing and target range, score readiness, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates.
+- Current description: Read a buyer inquiry, check financing and target range, score fit, draft exactly three next questions, and prepare three unbooked call slots through explicit approval gates with a deterministic mock fallback.
 - Parent persona repository: `https://github.com/tarundeveloper25/persona-ryan.git`
 - Parent registration source: `assets/chat-config.json` (runtime registry only)
 - Command workflow repository: `https://github.com/tarundeveloper25/ryan-qualify-a-buyer-business-workflow.git`

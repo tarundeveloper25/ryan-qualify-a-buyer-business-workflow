@@ -35,6 +35,8 @@ curl -fsSL https://raw.githubusercontent.com/go-code-bot/go-workflow-builder-ski
 
 ```
 SKILL.md                          ← Main workflow-builder instructions for AI agents
+gabriel.workspace.json           ← Required validator declaration for workspace publishers
+assets/workflow.json             ← Portable schema-v2 example definition
 scripts/
   validate-workflow.ts            ← Validate a workflow.json against the full schema
   generate-example.ts             ← Generate an example workflow for a given scenario
@@ -100,3 +102,12 @@ Content-Type: application/json
 ## License
 
 MIT
+
+## Persona workspaces
+
+The root `gabriel.workspace.json` makes validation explicit. Unmarked legacy children use
+a loud compatibility fallback; marked children fail when required validators are missing.
+Commit and push this child first. Parent publish accepts a detached pin behind the declared
+branch, but rejects a wrong origin, missing branch, or local-only commit. Multiple commands
+may share this Workflow's single registry row. Parent `prune` removes only validated Git
+metadata and always preserves the checkout.
