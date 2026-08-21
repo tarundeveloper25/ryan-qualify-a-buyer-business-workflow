@@ -13,6 +13,16 @@
     "steps": [
       {
         "step_number": 1,
+        "action_type": "navigate",
+        "stepId": "step-cab00",
+        "timestamp": 1787294000000,
+        "label": "Start Canvas buyer qualification",
+        "intent": "**Input:** The /qualify-a-buyer-business command arguments.\n\n**Processing:** Initializes a browserless workflow context for the contiguous inline Canvas task sequence.\n\n**Output:** A Canvas-ready execution context; no browser or external connector is opened.",
+        "disableBrowser": true,
+        "readOnly": true
+      },
+      {
+        "step_number": 2,
         "action_type": "persona_capability",
         "stepId": "step-ca101",
         "timestamp": 1787294000001,
@@ -73,7 +83,7 @@
         }
       },
       {
-        "step_number": 2,
+        "step_number": 3,
         "action_type": "persona_capability",
         "stepId": "step-ca102",
         "timestamp": 1787294000002,
@@ -137,7 +147,7 @@
         }
       },
       {
-        "step_number": 3,
+        "step_number": 4,
         "action_type": "persona_capability",
         "stepId": "step-ca103",
         "timestamp": 1787294000003,
