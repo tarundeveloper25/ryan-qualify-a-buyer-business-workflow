@@ -235,7 +235,7 @@
               "enabled": true,
               "blueprintRef": "inline",
               "artifactAllowlist": ["text_document"],
-              "humanApproval": {"enabled": true},
+              "humanApproval": {"enabled": false},
               "taskTypes": [
                 {
                   "id": "commit-slots",
@@ -270,7 +270,7 @@
               "enabled": true,
               "blueprintRef": "inline",
               "artifactAllowlist": ["text_document"],
-              "humanApproval": {"enabled": true},
+              "humanApproval": {"enabled": false},
               "taskTypes": [
                 {
                   "id": "read-gmail",
