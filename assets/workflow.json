@@ -77,7 +77,7 @@
             "sequenceId": "ryan-buyer-qualification",
             "taskId": "read-gmail",
             "taskIndex": 0,
-            "taskCount": 3,
+            "taskCount": 4,
             "terminal": false
           },
           "promptTemplate": "Read this buyer inquiry, qualify fit, and draft the next response with three questions. Use RYAN-BUYER-001 mock fallback unless a live Gmail connector is explicitly selected and approved. {args}"
@@ -142,7 +142,7 @@
             "sequenceId": "ryan-buyer-qualification",
             "taskId": "check-budget",
             "taskIndex": 1,
-            "taskCount": 3,
+            "taskCount": 4,
             "terminal": false
           },
           "promptTemplate": "Check the seeded budget and comps for RYAN-BUYER-001 unless a live Sheets connector is explicitly selected and approved. Preserve score 82, band strong, and exactly three required questions. {args}"
@@ -154,7 +154,7 @@
         "stepId": "step-ca103",
         "timestamp": 1787294000003,
         "label": "Calendar — suggest slots",
-        "intent": "**Input:** The approved drafted case RYAN-BUYER-001.\n\n**Processing:** Opens the third Canvas card for an explicitly approved Calendar.suggest_slots read. The mock path returns the three seeded PT strings literally, without interpretation or substitution. Approval advances the same persisted case from drafted to slots_ready and aggregates the three-card Canvas result.\n\n**Output:** Maya Chen, score 82, strong band, exactly three questions, exactly three unbooked slots, and persisted stage slots_ready. No event, tour, or offer is created.",
+        "intent": "**Input:** The approved drafted case RYAN-BUYER-001.\n\n**Processing:** Opens the third Canvas card to propose three unbooked Calendar slots. The mock path returns the three seeded PT strings literally and persists them while the case remains drafted for review. Improve revises the proposal without booking anything.\n\n**Output:** Three unbooked suggested slots persisted for review while the case remains drafted. No event, tour, or offer is created.",
         "personaCapabilityConfig": {
           "schemaVersion": 1,
           "kind": "canvas_task_execution",
@@ -173,7 +173,7 @@
                 {
                   "id": "suggest-slots",
                   "label": "Calendar",
-                  "description": "Calendar.suggest_slots — Intro call availability. For the mock path, return exactly and only these unbooked strings: 2026-09-08 17:30 PT; 2026-09-09 18:00 PT; 2026-09-10 12:00 PT. Set the same case stage to slots_ready. Never create, reserve, update, or delete an event; never book a tour or file an offer.",
+                  "description": "Propose three unbooked intro-call slots. Do not book. Stay at drafted until approved.",
                   "artifactType": "text_document",
                   "artifactPolicy": "none",
                   "dependsOn": [
@@ -187,9 +187,9 @@
                       "kind": "pipeline",
                       "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
                     },
-                    "transitionId": "prepare_slots",
+                    "transitionId": "propose_slots",
                     "expectedFromStageId": "drafted",
-                    "expectedToStageId": "slots_ready",
+                    "expectedToStageId": "drafted",
                     "operation": "advance",
                     "waitForCompletion": true,
                     "recovery": {
@@ -213,17 +213,64 @@
             "sequenceId": "ryan-buyer-qualification",
             "taskId": "suggest-slots",
             "taskIndex": 2,
-            "taskCount": 3,
+            "taskCount": 4,
+            "terminal": false
+          },
+          "promptTemplate": "Propose exactly the three seeded unbooked PT slots for RYAN-BUYER-001 and keep the case at drafted for review. Never create or book any calendar event, tour, or offer. {args}"
+        }
+      },
+      {
+        "step_number": 5,
+        "action_type": "persona_capability",
+        "stepId": "step-ca104",
+        "timestamp": 1787294000004,
+        "label": "Commit approved slots",
+        "intent": "**Input:** The approved suggest-slots Canvas card and the same drafted RYAN-BUYER-001 case.\n\n**Processing:** Runs the terminal prepare_slots transition only after Calendar review completes with Looks good. Advances the persisted case from drafted to slots_ready without creating or booking anything.\n\n**Output:** The approved unbooked suggestions remain persisted and the case reaches slots_ready. No email, event, tour, or offer is created.",
+        "personaCapabilityConfig": {
+          "schemaVersion": 1,
+          "kind": "canvas_task_execution",
+          "execution": {
+            "type": "canvas_task_execution",
+            "canvas": {
+              "enabled": true,
+              "blueprintRef": "inline",
+              "artifactAllowlist": ["text_document"],
+              "humanApproval": {"enabled": true},
+              "taskTypes": [
+                {
+                  "id": "commit-slots",
+                  "label": "Commit slots",
+                  "description": "Advance the approved case from drafted to slots_ready. Never book an event.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "dependsOn": ["suggest-slots"],
+                  "requiresApproval": false,
+                  "autoApprove": true,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
+                    "transitionId": "prepare_slots",
+                    "expectedFromStageId": "drafted",
+                    "expectedToStageId": "slots_ready",
+                    "operation": "advance",
+                    "waitForCompletion": true
+                  }
+                }
+              ],
+              "playbook": {"captureOnSuccess": true, "allowSave": true, "allowReplay": true, "promoteToOperator": false}
+            }
+          },
+          "canvasTask": {
+            "sequenceId": "ryan-buyer-qualification",
+            "taskId": "commit-slots",
+            "taskIndex": 3,
+            "taskCount": 4,
             "terminal": true,
             "aggregateCanvas": {
               "enabled": true,
               "blueprintRef": "inline",
-              "artifactAllowlist": [
-                "text_document"
-              ],
-              "humanApproval": {
-                "enabled": true
-              },
+              "artifactAllowlist": ["text_document"],
+              "humanApproval": {"enabled": true},
               "taskTypes": [
                 {
                   "id": "read-gmail",
@@ -235,10 +282,7 @@
                   "autoApprove": false,
                   "execution": {
                     "type": "pipeline_transition",
-                    "pipelineRef": {
-                      "kind": "pipeline",
-                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
-                    },
+                    "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
                     "transitionId": "score_buyer",
                     "expectedFromStageId": "intake",
                     "expectedToStageId": "scored",
@@ -252,17 +296,12 @@
                   "description": "Sheets.check_budget — use approved live values or the exact RYAN-BUYER-001 budget/comps; score 82, band strong, exactly three questions.",
                   "artifactType": "text_document",
                   "artifactPolicy": "none",
-                  "dependsOn": [
-                    "read-gmail"
-                  ],
+                  "dependsOn": ["read-gmail"],
                   "requiresApproval": true,
                   "autoApprove": false,
                   "execution": {
                     "type": "pipeline_transition",
-                    "pipelineRef": {
-                      "kind": "pipeline",
-                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
-                    },
+                    "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
                     "transitionId": "draft_response",
                     "expectedFromStageId": "scored",
                     "expectedToStageId": "drafted",
@@ -273,43 +312,50 @@
                 {
                   "id": "suggest-slots",
                   "label": "Calendar",
-                  "description": "Calendar.suggest_slots — mock output is exactly 2026-09-08 17:30 PT, 2026-09-09 18:00 PT, and 2026-09-10 12:00 PT; unbooked; final state slots_ready. Completion: Buyer profile scored, next questions drafted, and call slots prepared.",
+                  "description": "Propose three unbooked intro-call slots. Do not book. Stay at drafted until approved.",
                   "artifactType": "text_document",
                   "artifactPolicy": "none",
-                  "dependsOn": [
-                    "check-budget"
-                  ],
+                  "dependsOn": ["check-budget"],
                   "requiresApproval": true,
                   "autoApprove": false,
                   "execution": {
                     "type": "pipeline_transition",
-                    "pipelineRef": {
-                      "kind": "pipeline",
-                      "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"
-                    },
-                    "transitionId": "prepare_slots",
+                    "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
+                    "transitionId": "propose_slots",
                     "expectedFromStageId": "drafted",
-                    "expectedToStageId": "slots_ready",
+                    "expectedToStageId": "drafted",
                     "operation": "advance",
                     "waitForCompletion": true,
                     "recovery": {
                       "improveTransitionId": "revise_slots",
-                      "approvalLabels": {
-                        "improve": "Improve…"
-                      }
+                      "approvalLabels": {"improve": "Improve…"}
                     }
+                  }
+                },
+                {
+                  "id": "commit-slots",
+                  "label": "Commit slots",
+                  "description": "Advance the approved case from drafted to slots_ready. Never book an event.",
+                  "artifactType": "text_document",
+                  "artifactPolicy": "none",
+                  "dependsOn": ["suggest-slots"],
+                  "requiresApproval": false,
+                  "autoApprove": true,
+                  "execution": {
+                    "type": "pipeline_transition",
+                    "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
+                    "transitionId": "prepare_slots",
+                    "expectedFromStageId": "drafted",
+                    "expectedToStageId": "slots_ready",
+                    "operation": "advance",
+                    "waitForCompletion": true
                   }
                 }
               ],
-              "playbook": {
-                "captureOnSuccess": true,
-                "allowSave": true,
-                "allowReplay": true,
-                "promoteToOperator": false
-              }
+              "playbook": {"captureOnSuccess": true, "allowSave": true, "allowReplay": true, "promoteToOperator": false}
             }
           },
-          "promptTemplate": "Return the final RYAN-BUYER-001 qualification using approved Canvas cards. Preserve Maya Chen, score 82, band strong, exactly three required questions, the three literal unbooked PT slots, case stage slots_ready, and the exact completion sentence. {args}"
+          "promptTemplate": "Return the final RYAN-BUYER-001 qualification after approved Calendar review. Preserve Maya Chen, score 82, band strong, exactly three required questions, the three literal unbooked PT slots, case stage slots_ready, and the exact completion sentence. {args}"
         }
       }
     ],
