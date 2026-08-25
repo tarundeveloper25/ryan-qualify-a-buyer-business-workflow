@@ -1,17 +1,16 @@
 {
-  "schemaVersion": 2,
-  "resourceKey": "workflow.ryan.qualify-a-buyer",
+  "actionId": "6a86eb6cb8a54c2e1a012033",
   "structure": {
-    "name": "register authentication",
-    "steps": [],
+    "name": "Qualify a buyer",
+    "actionName": "Qualify a buyer",
+    "actionIndex": 0,
+    "baseUrl": "",
+    "screenshotEnabled": false,
     "parameters": {
       "execute": []
     },
-    "baseUrl": "",
-    "actionIndex": 0,
-    "actionName": "register authentication",
-    "screenshotEnabled": false,
-    "groups": []
+    "groups": [],
+    "steps": []
   },
-  "commitMessage": ""
+  "commitMessage": "Initial register auth sidecar"
 }

@@ -1,27 +1,24 @@
 ---
-name: qualify-a-buyer-business-child
-description: Child execution skill for Qualify a Buyer Business. 4 steps, mode: browserless.
+name: qualify-a-buyer-child
+description: Child execution skill for Qualify a buyer. 1 steps, mode: browserless.
 type: child_skill
 ---
 
-# Qualify a Buyer Business — Child Skill
+# Qualify a buyer — Child Skill
 
 ## Purpose
-Execute the "Qualify a Buyer Business" automation workflow.
+Execute the "Qualify a buyer" automation workflow.
 
 ## Operator Details
 - **Mode:** browserless
-- **Steps:** 4
+- **Steps:** 1
 - **Groups:** 0
 
 ## Step Summary
 
 | # | Action | Intent |
 |---|--------|--------|
-| 1 | navigate | Start Canvas buyer qualification |
-| 2 | persona_capability | Gmail — read buyer inquiry |
-| 3 | persona_capability | Sheets — check budget |
-| 4 | persona_capability | Calendar — suggest slots |
+| 1 | navigate | Workflow Start |
 
 ## Execution Notes
 - Steps execute sequentially by step_number
