@@ -191,7 +191,13 @@
                     "expectedFromStageId": "drafted",
                     "expectedToStageId": "slots_ready",
                     "operation": "advance",
-                    "waitForCompletion": true
+                    "waitForCompletion": true,
+                    "recovery": {
+                      "improveTransitionId": "revise_slots",
+                      "approvalLabels": {
+                        "improve": "Improve…"
+                      }
+                    }
                   }
                 }
               ],
@@ -285,7 +291,13 @@
                     "expectedFromStageId": "drafted",
                     "expectedToStageId": "slots_ready",
                     "operation": "advance",
-                    "waitForCompletion": true
+                    "waitForCompletion": true,
+                    "recovery": {
+                      "improveTransitionId": "revise_slots",
+                      "approvalLabels": {
+                        "improve": "Improve…"
+                      }
+                    }
                   }
                 }
               ],
