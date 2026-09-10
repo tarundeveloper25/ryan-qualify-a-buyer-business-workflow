@@ -245,7 +245,7 @@
                   "artifactPolicy": "none",
                   "dependsOn": ["suggest-slots"],
                   "requiresApproval": false,
-                  "autoApprove": true,
+                  "autoApprove": false,
                   "execution": {
                     "type": "pipeline_transition",
                     "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
@@ -340,7 +340,7 @@
                   "artifactPolicy": "none",
                   "dependsOn": ["suggest-slots"],
                   "requiresApproval": false,
-                  "autoApprove": true,
+                  "autoApprove": false,
                   "execution": {
                     "type": "pipeline_transition",
                     "pipelineRef": {"kind": "pipeline", "resourceKey": "pipeline.ryan.buyer-qualification-pipeline"},
